@@ -1,1 +1,13 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300..900&display=swap');
+
+:root {
+  @apply font-rubik bg-[url('/images/pattern-bg-mobile.png')] bg-cover bg-no-repeat text-white;
+}
+
+@theme {
+  --color-very-dark-gray: hsl(0, 0%, 17%);
+  --color-dark-gray: hsl(0, 0%, 59%);
+
+  --font-rubik: "Rubik", sans-serif;
+}
