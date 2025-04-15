@@ -1,8 +1,10 @@
+import MainPage from "./pages/MainPage";
+
 function App() {
 
   return (
     <>
-      <p>Initial</p>
+      <MainPage />
     </>
   )
 }
