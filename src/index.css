@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  @apply font-rubik bg-[url('/images/pattern-bg-mobile.png')] bg-cover bg-no-repeat text-white;
+  @apply font-rubik bg-[url('/images/pattern-bg-mobile.png')] bg-contain bg-no-repeat text-white;
 }
 
 @theme {
