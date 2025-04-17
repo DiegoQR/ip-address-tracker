@@ -1,5 +1,7 @@
 import InfoSection from "../components/InfoSection";
 import SearchInput from "../components/SearchInput";
+import Map from "../components/Map";
+
 import { ipGeolocation } from "../models/ipLocation";
 
 function MainPage() {
@@ -11,10 +13,13 @@ function MainPage() {
     }
 
     return (<>
-        <main className='mx-5 text-center my-10 space-y-7'>
-            <h1>IP Address Tracker</h1>
-            <SearchInput name="ip-search" placeholder="Search for any IP address or domain"/>
-            <InfoSection ipInfo={infoIpAddress} />
+        <main className='relative'>
+            <section className="mx-5 text-center my-10 space-y-7">
+                <h1>IP Address Tracker</h1>
+                <SearchInput name="ip-search" placeholder="Search for any IP address or domain"/>
+                <InfoSection ipInfo={infoIpAddress} />
+            </section>
+            <Map latitude={51.505} longitude={-0.09} zoom={14}/>
         </main>
     </>);
 }
