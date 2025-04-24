@@ -10,7 +10,7 @@ export default defineConfig(({ mode }) => {
       tailwindcss(),
     ],
     server: {
-      port: Number(env.PORT),
+      port: Number(env.VITE_PORT) || 3000,
     }
     
   });
