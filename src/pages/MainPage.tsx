@@ -8,37 +8,65 @@ import SearchInput from "../components/SearchInput";
 import Map from "../components/Map";
 
 import useFetch from "../hooks/useFetch";
-import { error } from "console";
 
 function MainPage() {
-    const [ipInfo, setIpInfo] = useState<ipGeolocation | null>(null);
-    const { get } = useFetch("https://apiip.net/api/");
+    const [ip, setIp] = useState<string>('');
+    const [ipInfo, setIpInfo] = useState<ipGeolocation>({ipAddress: 'N/A', location: 'N/A', timezone: 'N/A', isp: 'N/A', latitude: 0, longitude: 0});
+    const { get } = useFetch(`${getConfig().apiUrl}?apiKey=${getConfig().apiKey}`);
+
 
     useEffect(() => {
-        get(`check?accessKey=${getConfig().apiKey}`)
+        get(`&fields=country_name,city,district,latitude,longitude,isp,time_zone`)
         .then(data => {
-            console.log("Data:", data);
+            const ipGeolocationData: ipGeolocation = {
+                ipAddress: data.ip,
+                location: `${data.city}, ${data.country_name}, ${data.district}`,
+                timezone: `UTC ${String(data.time_zone.offset)}:00`,
+                isp: data.isp,
+                latitude: parseFloat(data.latitude),
+                longitude: parseFloat(data.longitude),
+            }
+            setIpInfo(ipGeolocationData)
+            setIp(data.ip)
         })
         .catch(error => console.error("Error fetching IP info:", error));
     }, []);
-        
-    const infoIpAddress : ipGeolocation = {
-        ipAddress: "192.212.174.101",
-        location: "Brooklyn, NY 10001",
-        timezone: "UTC - 05:00",
-        isp: "SpaceX Starlink",
-        latitude: 40.7128,
-        longitude: -74.0060,
+
+    function handleSearchSubmit(e: React.FormEvent) {
+        e.preventDefault();
+        const ipAddress = ip;
+        if (ipAddress) {
+            get(`&ip=${ipAddress}&fields=country_name,city,district,latitude,longitude,isp,time_zone`)
+            .then(data => {
+                const ipGeolocationData: ipGeolocation = {
+                    ipAddress: data.ip,
+                    location: `${data.city}, ${data.country_name}, ${data.district}`,
+                    timezone: `UTC ${String(data.time_zone.offset)}:00`,
+                    isp: data.isp,
+                    latitude: parseFloat(data.latitude),
+                    longitude: parseFloat(data.longitude),
+                }
+                setIpInfo(ipGeolocationData)
+                setIp(data.ip)
+            })
+            .catch(error => console.error("Error fetching IP info:", error));
+        }
     }
 
     return (<>
         <main className='relative'>
             <section className="mx-5 text-center my-10 space-y-7">
                 <h1>IP Address Tracker</h1>
-                <SearchInput name="ip-search" placeholder="Search for any IP address or domain"/>
-                <InfoSection ipInfo={infoIpAddress} />
+                <SearchInput 
+                    name="ip-search" 
+                    placeholder="Search for any IP address or domain"
+                    value={ip}
+                    onChange={(e) => setIp(e.target.value)}
+                    onSubmit={(e) => handleSearchSubmit(e)}
+                />
+                <InfoSection ipInfo={ipInfo} />
             </section>
-            <Map latitude={infoIpAddress.latitude} longitude={infoIpAddress.longitude} zoom={14}/>
+            <Map latitude={ipInfo.latitude} longitude={ipInfo.longitude} zoom={14}/>
         </main>
     </>);
 }
