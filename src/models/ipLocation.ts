@@ -5,4 +5,6 @@ export interface ipGeolocation {
     location: string;
     timezone: string;
     isp: string;
+    latitude: number;
+    longitude: number;
 }
