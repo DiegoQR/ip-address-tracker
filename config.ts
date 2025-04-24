@@ -1,17 +1,15 @@
 interface Config {
     apiKey: string;
-    apiUrl: string;
     port: number;
     mode: 'development' | 'production';
 }
 
 function getConfig(): Config {
-    const env = process.env;
+    const env = import.meta.env;
     const config : Config = {
-        apiKey: env.API_KEY || '',
-        apiUrl: env.API_URL || '',
-        port: parseInt(env.PORT || '3000', 10),
-        mode: env.NODE_ENV === 'production' ? 'production' : 'development'
+        apiKey: env.VITE_API_KEY || '',
+        port: parseInt(env.VITE_PORT || '3000', 10),
+        mode: env.VITE_MODE === 'production' ? 'production' : 'development'
     };
     return config;
 }
