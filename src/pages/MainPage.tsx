@@ -12,12 +12,12 @@ import useFetch from "../hooks/useFetch";
 function MainPage() {
     const [ip, setIp] = useState<string>('');
     const [ipInfo, setIpInfo] = useState<ipGeolocation>({ipAddress: 'N/A', location: 'N/A', timezone: 'N/A', isp: 'N/A', latitude: 0, longitude: 0});
-    const { get } = useFetch(`${getConfig().apiUrl}?apiKey=${getConfig().apiKey}`);
+    const { get, loading } = useFetch(`${getConfig().apiUrl}?apiKey=${getConfig().apiKey}`);
 
 
     useEffect(() => {
         get(`&fields=country_name,city,district,latitude,longitude,isp,time_zone`)
-        .then(data => {
+        .then((data: any) => {
             const ipGeolocationData: ipGeolocation = {
                 ipAddress: data.ip,
                 location: `${data.city}, ${data.country_name}, ${data.district}`,
@@ -37,7 +37,7 @@ function MainPage() {
         const ipAddress = ip;
         if (ipAddress) {
             get(`&ip=${ipAddress}&fields=country_name,city,district,latitude,longitude,isp,time_zone`)
-            .then(data => {
+            .then((data :any) => {
                 const ipGeolocationData: ipGeolocation = {
                     ipAddress: data.ip,
                     location: `${data.city}, ${data.country_name}, ${data.district}`,
