@@ -1,12 +1,15 @@
 import { MapContainer, TileLayer, Marker } from 'react-leaflet'
 
 interface Props {
-    latitude: number;
-    longitude: number;
+    latitude: number | null;
+    longitude: number | null;
     zoom: number
 }
 
 function Map({latitude, longitude, zoom} : Props) {
+    if(!latitude || !longitude) {
+        return <div className='w-full h-[60vh] absolute -z-50 top-75'>Loading...</div>
+    }
 
     return (<>
         <MapContainer center={[latitude, longitude]} zoom={zoom} scrollWheelZoom={true} className='w-full h-[60vh] absolute -z-50 top-75'>

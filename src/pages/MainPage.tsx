@@ -11,8 +11,8 @@ import useFetch from "../hooks/useFetch";
 
 function MainPage() {
     const [ip, setIp] = useState<string>('');
-    const [ipInfo, setIpInfo] = useState<ipGeolocation>({ipAddress: 'N/A', location: 'N/A', timezone: 'N/A', isp: 'N/A', latitude: 0, longitude: 0});
-    const { get, loading } = useFetch(`${getConfig().apiUrl}?apiKey=${getConfig().apiKey}`);
+    const [ipInfo, setIpInfo] = useState<ipGeolocation>({ipAddress: 'N/A', location: 'N/A', timezone: 'N/A', isp: 'N/A', latitude: null, longitude: null});
+    const { get } = useFetch(`${getConfig().apiUrl}?apiKey=${getConfig().apiKey}`);
 
 
     useEffect(() => {

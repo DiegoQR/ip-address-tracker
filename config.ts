@@ -8,8 +8,8 @@ interface Config {
 function getConfig(): Config {
     const env = import.meta.env;
     const config : Config = {
-        apiKey: env.VITE_API_KEY || '',
-        apiUrl: env.VITE_API_URL || 'https://api.ipgeolocation.io/ipgeo',
+        apiKey: env.VITE_API_KEY,
+        apiUrl: env.VITE_API_URL,
         port: parseInt(env.VITE_PORT || '3000', 10),
         mode: env.VITE_MODE === 'production' ? 'production' : 'development'
     };
