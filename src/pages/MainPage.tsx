@@ -12,7 +12,7 @@ import useFetch from "../hooks/useFetch";
 function MainPage() {
     const [ip, setIp] = useState<string>('');
     const [ipInfo, setIpInfo] = useState<ipGeolocation>({ipAddress: 'N/A', location: 'N/A', timezone: 'N/A', isp: 'N/A', latitude: null, longitude: null});
-    const { get } = useFetch(`${getConfig().apiUrl}?apiKey=${getConfig().apiKey}`);
+    const { get, loading } = useFetch(`${getConfig().apiUrl}?apiKey=${getConfig().apiKey}`);
 
 
     useEffect(() => {
@@ -66,7 +66,7 @@ function MainPage() {
                 />
                 <InfoSection ipInfo={ipInfo} />
             </section>
-            <Map latitude={ipInfo.latitude} longitude={ipInfo.longitude} zoom={14}/>
+            <Map latitude={ipInfo.latitude} longitude={ipInfo.longitude} loading={loading} zoom={14}/>
         </main>
     </>);
 }
