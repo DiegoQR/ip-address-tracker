@@ -14,23 +14,26 @@ function MainPage() {
     const [ipInfo, setIpInfo] = useState<ipGeolocation>({ipAddress: 'N/A', location: 'N/A', timezone: 'N/A', isp: 'N/A', latitude: null, longitude: null});
     const { get, loading } = useFetch(`${getConfig().apiUrl}?apiKey=${getConfig().apiKey}`);
 
-
     useEffect(() => {
         get(`&fields=country_name,city,district,latitude,longitude,isp,time_zone`)
         .then((data: any) => {
-            const ipGeolocationData: ipGeolocation = {
-                ipAddress: data.ip,
-                location: `${data.city}, ${data.country_name}, ${data.district}`,
-                timezone: `UTC ${String(data.time_zone.offset)}:00`,
-                isp: data.isp,
-                latitude: parseFloat(data.latitude),
-                longitude: parseFloat(data.longitude),
-            }
+            const ipGeolocationData: ipGeolocation = dataToIPGeolocation(data);
             setIpInfo(ipGeolocationData)
             setIp(data.ip)
         })
         .catch(error => console.error("Error fetching IP info:", error));
     }, []);
+
+    function dataToIPGeolocation(data: any): ipGeolocation {
+        return {
+            ipAddress: data.ip,
+            location: `${data.city}, ${data.country_name}, ${data.district}`,
+            timezone: `UTC ${data.time_zone.offset < 0 ? String(data.time_zone.offset) : `+${String(data.time_zone.offset)}`}:00`,
+            isp: data.isp,
+            latitude: parseFloat(data.latitude),
+            longitude: parseFloat(data.longitude),
+        }
+    }
 
     function handleSearchSubmit(e: React.FormEvent) {
         e.preventDefault();
@@ -38,14 +41,7 @@ function MainPage() {
         if (ipAddress) {
             get(`&ip=${ipAddress}&fields=country_name,city,district,latitude,longitude,isp,time_zone`)
             .then((data :any) => {
-                const ipGeolocationData: ipGeolocation = {
-                    ipAddress: data.ip,
-                    location: `${data.city}, ${data.country_name}, ${data.district}`,
-                    timezone: `UTC ${String(data.time_zone.offset)}:00`,
-                    isp: data.isp,
-                    latitude: parseFloat(data.latitude),
-                    longitude: parseFloat(data.longitude),
-                }
+                const ipGeolocationData: ipGeolocation = dataToIPGeolocation(data);
                 setIpInfo(ipGeolocationData)
                 setIp(data.ip)
             })
@@ -67,6 +63,7 @@ function MainPage() {
                 <InfoSection ipInfo={ipInfo} />
             </section>
             <Map latitude={ipInfo.latitude} longitude={ipInfo.longitude} loading={loading} zoom={14}/>
+            
         </main>
     </>);
 }
