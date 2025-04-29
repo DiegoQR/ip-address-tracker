@@ -29,7 +29,7 @@ Users should be able to:
 
 ### Screenshot
 
-![](./public/design/page-preview.png)
+![](https://res.cloudinary.com/dho0rif9d/image/upload/v1745970122/web-portfolio/projects-screenshots/page-preview_ke4y07.png)
 
 ### Links
 
