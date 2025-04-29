@@ -8,7 +8,7 @@ interface Props {
 
 function SearchInput ({ name, placeholder, value, onChange, onSubmit }: Props) {
     return (<>
-        <form className="relative max-w-150 mx-auto my-5" onSubmit={onSubmit}>
+        <form className="relative max-w-150 mx-auto my-10" onSubmit={onSubmit}>
             <label htmlFor={name} className="hidden">Search</label>
             <input 
                 type="text" 
