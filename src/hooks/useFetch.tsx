@@ -8,8 +8,9 @@ export default function useFetch(baseUrl: string) {
             fetch(`${baseUrl}${url}`)
             .then((response) => response.json())
             .then((data) => {
-                if (!data) {
+                if (!data || data.hasOwnProperty('message')) {
                     setLoading(false);
+                    alert(data.message || "Error fetching data");
                     return reject(data);
                 }
                 setLoading(false);
