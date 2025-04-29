@@ -57,6 +57,7 @@ function MainPage() {
                     name="ip-search" 
                     placeholder="Search for any IP address or domain"
                     value={ip}
+                    loading={loading}
                     onChange={(e) => setIp(e.target.value)}
                     onSubmit={(e) => handleSearchSubmit(e)}
                 />
